@@ -1,0 +1,20 @@
+{
+  "name": "opsx-change-slice-manager",
+  "version": "0.1.0",
+  "description": "Install this repository's Claude Code skills into a target .claude/skills directory.",
+  "license": "UNLICENSED",
+  "bin": {
+    "install-opsx-skills": "scripts/install-skills.js"
+  },
+  "scripts": {
+    "install-opsx-skills": "node scripts/install-skills.js"
+  },
+  "files": [
+    "README.md",
+    "scripts/install-skills.js",
+    "src/skills"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}
