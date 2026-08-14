@@ -23,7 +23,8 @@
 
 ## docs/ 与 references/ 的职责区分（不冲突）
 
-- `docs/OpenSpec Change 拆分策略文档.md`：**skill 开发参考文件**，面向本仓库开发者，在本仓库内阅读，不随包安装到下游。
+- `docs/OpenSpec Change 拆分策略文档.md`：**skill 开发参考文件**，讲 Change 如何拆（拆分方法论、决策树、维度选择），面向本仓库开发者，不随包安装到下游。
+- `docs/OpenSpec 切片技能使用时机文档.md`：**skill 开发参考文件**，讲三 skill 何时用（在 openspec 流程中的调用窗口与交接），面向本仓库开发者，不随包安装到下游。
 - `src/skills/<skill>/references/*.md`：**安装到目标项目、服务于 skill 运行**的说明文件，随 `install-skills.js` 复制到下游目标项目的 `.claude/skills/`，供 skill 执行时引用。
 - 两者面向不同受众、不同生命周期，**不冲突**：docs 是开发期参考，references 是运行期产物的一部分。各自独立维护，不互为副本，无需合并去重或选定权威源。
 - 写作约束：docs 章节可写开发期理解性内容（总纲、决策树解读）；references 章节必须写 skill 执行可直接引用的契约性内容。两者内容可能相似但用途不同，允许各自表述。

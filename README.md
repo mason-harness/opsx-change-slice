@@ -14,6 +14,16 @@
 
 三者构成 `plan → register → track` 流水线，交接物是 Slice Plan YAML。各 skill 的触发条件与用法见安装后的 `SKILL.md`。
 
+## 使用时机（在 openspec change 流程中）
+
+这三个 skill 串在 openspec change 的标准流程（提案 → new change → apply → verify → archive）里，专门处理"一个需求需要拆成多片"的情况：
+
+- **openspec-slices-plan**：在 `openspec new change` **之前**。当一个需求过大、需要选拆分策略、或横跨单仓/多仓边界时，先经它产出经你确认的 Slice Plan。它是拆分的唯一入口——不经它确认，不要直接 new change。
+- **openspec-slices-register**：在 plan 确认**之后**、apply **之前**。把已确认的 Slice Plan 落地为多个 changes，每片在当轮写完整 `proposal.md`，并把 Slice Plan YAML 持久化到工作空间供追踪读取；多仓/跨仓时它会先建集中工作空间。
+- **openspec-slices-track**：在 register **之后**、任意 apply/verify/archive **之间或之后**，可跨会话反复调用。它读 register 落盘的 Slice Plan YAML 与 openspec 现状，给出进度看板和下一个推荐 slice，自身不做拆分、不做登记、不做 apply/verify/archive。
+
+之后每个 slice 按正常 openspec 流程推进（apply → verify → archive）。具体每个 skill 的触发条件、输入输出、固定回答模版见安装后的 `SKILL.md`。
+
 ## 安装
 
 需要 Node.js >= 18。
@@ -62,15 +72,15 @@ npm run install-skills -- --target /tmp/verify
 │   ├── openspec-slices-plan/
 │   ├── openspec-slices-register/
 │   └── openspec-slices-track/
-├── docs/                     # skill 开发参考（不随包安装到目标项目）
+├── docs/                     # skill 开发期参考（拆分策略、使用时机等，不随包安装）
 └── repository/               # 仓库工程知识（开发者参考）
 ```
 
 - `src/skills/` 下的 `SKILL.md` 与 `references/` 是会随包安装到目标项目的运行产物。
-- `docs/` 是开发参考文件，只在本仓库内阅读，不安装到目标项目。
+- `docs/` 是开发期参考（拆分策略、使用时机等），只在本仓库内阅读，不安装到目标项目。
 
 ## 开发者参考
 
 - `CLAUDE.md`：Claude Code 在本仓库工作时的执行规则。
 - `repository/`：仓库工程知识（模块边界、发布安装契约、设计决策）。
-- `docs/`：skill 开发期的拆分策略参考。
+- `docs/`：skill 开发期参考（拆分策略、使用时机等）。
